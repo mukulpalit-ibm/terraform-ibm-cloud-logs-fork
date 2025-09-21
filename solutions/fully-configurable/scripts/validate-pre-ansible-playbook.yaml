@@ -10,6 +10,12 @@
     target_service_name: "logs-router"
     
   tasks:
+    - name: Display environment variable values
+      ansible.builtin.debug:
+        msg:
+          - "ibmcloud_api_key: {{ ibmcloud_api_key }}"
+          - "tenant_region: {{ tenant_region }}"
+    
     - name: Ensure API key and regions are set
       ansible.builtin.fail:
         msg: "The ibmcloud_api_key or tenant_region environment variable is not set."
