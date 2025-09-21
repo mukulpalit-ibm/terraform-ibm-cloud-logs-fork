@@ -6,7 +6,7 @@
 
   vars:
     ibmcloud_api_key: "{{ lookup('env', 'ibmcloud_api_key') }}"
-    tenant_region: "{{ lookup('env', 'logs_routing_tenant_regions ') | default('') }}"
+    tenant_region: "{{ lookup('env', 'logs_routing_tenant_regions') | default('') }}"
     target_service_name: "logs-router"
     
   tasks:
