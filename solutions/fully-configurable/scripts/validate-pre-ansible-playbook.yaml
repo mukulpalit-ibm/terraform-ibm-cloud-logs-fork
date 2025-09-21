@@ -6,7 +6,7 @@
 
   vars:
     ibmcloud_api_key: "{{ lookup('env', 'ibmcloud_api_key') }}"
-    tenant_region: "{{ lookup('env', 'logs_routing_tenant_regions') | default('') }}"
+    logs_routing_tenant_regions: "{{ lookup('env', 'logs_routing_tenant_regions') | default('') }}"
     target_service_name: "logs-router"
     
   tasks:
@@ -14,12 +14,12 @@
       ansible.builtin.debug:
         msg:
           - "ibmcloud_api_key: {{ ibmcloud_api_key }}"
-          - "tenant_region: {{ tenant_region }}"
+          - "logs_routing_tenant_regions: {{ logs_routing_tenant_regions }}"
     
     - name: Ensure API key and regions are set
       ansible.builtin.fail:
-        msg: "The ibmcloud_api_key or tenant_region environment variable is not set."
-      when: ibmcloud_api_key | length == 0 or tenant_region | length == 0
+        msg: "The ibmcloud_api_key or logs_routing_tenant_regions environment variable is not set."
+      when: ibmcloud_api_key | length == 0 or logs_routing_tenant_regions | length == 0
 
     - name: Log in to IBM Cloud
       ansible.builtin.shell: |
@@ -42,7 +42,7 @@
 
     - name: Parse regions from environment variable
       set_fact:
-        regions_list: "{{ ('[' + tenant_region | replace('[', '') | replace(']', '') | replace('\"', '') + ']') | from_yaml }}"
+        regions_list: "{{ ('[' + logs_routing_tenant_regions | replace('[', '') | replace(']', '') | replace('\"', '') + ']') | from_yaml }}"
     
     - name: Loop through each region and find log routing tenants
       ansible.builtin.uri:
